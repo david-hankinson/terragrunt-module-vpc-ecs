@@ -11,9 +11,9 @@ func TestPlanSucceeds(t *testing.T) {
 
 	opts := &terraform.Options{
 		TerraformDir:    "../module",
-		TerraformBinary: "tofu", // 👈 OpenTofu CLI
+		TerraformBinary: "tofu",
 	}
 
 	terraform.Init(t, opts)
-	terraform.Plan(t, opts) // ✅ test fails if plan errors
+	terraform.Plan(t, opts)
 }
