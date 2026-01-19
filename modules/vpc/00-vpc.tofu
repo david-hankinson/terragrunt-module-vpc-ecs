@@ -11,4 +11,4 @@ resource "aws_vpc" "this" {
   }
 }
 
-PROVIDER GOES HERE
+# PROVIDER GOES HERE
