@@ -10,5 +10,3 @@ resource "aws_vpc" "this" {
     name = "${var.env}-vpc"
   }
 }
-
-# PROVIDER GOES HERE

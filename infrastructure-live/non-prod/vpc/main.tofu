@@ -12,9 +12,9 @@ module "vpc" {
 }
 
 provider "aws" {
-  # assume_role {
-  #   # role_arn = "arn:aws:iam::754417747438:role/organizationAdminRole"
-  # }
+  assume_role {
+    role_arn = "arn:aws:iam::754417747438:role/organizationAdminRole"
+  }
 }
 
 terraform {
@@ -24,21 +24,6 @@ terraform {
     region       = "ca-central-1"
     use_lockfile = true
     encrypt      = true
+    role_arn = "arn:aws:iam::754417747438:role/organizationAdminRole"
   }
 }
-
-
-# VPC 1	Non-Prod	10.10.0.0/16	Main Non-Prod Network
-# Subnet 1	Non-Prod	10.10.1.0/24	Public Subnet A
-# Subnet 2	Non-Prod	10.10.2.0/24	Public Subnet B
-# Subnet 3	Non-Prod	10.10.10.0/24	Private Subnet A
-# Subnet 4	Non-Prod	10.10.11.0/24	Private Subnet B
-
-# UPDATE THE MODULE INPUTS
-# CREATE AN S3 BUCKET IN EACH OF THE ACCOUNTS
-# ADD THE AWS ACCOUNT NUMBER, ROLE AND S3 BUCKET INTO THE PROVIDER
-# SHOW THAT TOFU WILL MIGRATE STATE FROM COMMAND LINE
-
-# HOW TO TEST TOFU MODULES? 
-
-# TERRAGRUNTISATION
