@@ -19,11 +19,11 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket         = "terragrunt-vpc-ecs-state-demo"
-    key            = "prod/terraform.tfstate"
-    region         = "ca-central-1"
-    dynamodb_table = "tofu-state-locking"
-    encrypt        = true
+    bucket       = "terragrunt-vpc-ecs-state-demo"
+    key          = "prod/terraform.tfstate"
+    region       = "ca-central-1"
+    use_lockfile = true
+    encrypt      = true
   }
 }
 

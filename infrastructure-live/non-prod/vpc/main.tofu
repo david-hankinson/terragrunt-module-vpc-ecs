@@ -12,18 +12,18 @@ module "vpc" {
 }
 
 provider "aws" {
-  assume_role {
-    role_arn = "arn:aws:iam::754417747438:role/organizationAdminRole"
-  }
+  # assume_role {
+  #   # role_arn = "arn:aws:iam::754417747438:role/organizationAdminRole"
+  # }
 }
 
 terraform {
   backend "s3" {
-    bucket         = "terragrunt-vpc-ecs-state-demo"
-    key            = "non-prod/terraform.tfstate"
-    region         = "ca-central-1"
-    dynamodb_table = "tofu-state-locking"
-    encrypt        = true
+    bucket       = "terragrunt-vpc-ecs-state-demo"
+    key          = "non-prod/terraform.tfstate"
+    region       = "ca-central-1"
+    use_lockfile = true
+    encrypt      = true
   }
 }
 
