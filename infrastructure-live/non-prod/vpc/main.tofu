@@ -13,17 +13,17 @@ module "vpc" {
 
 provider "aws" {
   assume_role {
-    role_arn = "arn:aws:iam::754417747438:role/organizationAdminRole"
+    role_arn = "arn:aws:iam::596596146882:role/organizationAdminRole"
   }
 }
 
 terraform {
   backend "s3" {
-    bucket       = "terragrunt-vpc-ecs-state-demo"
+    bucket       = "terragrunt-vpc-ecs-state-demo-childaccount2"
     key          = "non-prod/terraform.tfstate"
     region       = "ca-central-1"
     use_lockfile = true
     encrypt      = true
-    role_arn = "arn:aws:iam::754417747438:role/organizationAdminRole"
+    role_arn = "arn:aws:iam::596596146882:role/organizationAdminRole"
   }
 }

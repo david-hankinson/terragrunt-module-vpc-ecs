@@ -14,9 +14,16 @@ import (
 func TestVpcAndSubnets(t *testing.T) {
 	t.Parallel()
 
+	awsRegion := "ca-central-1"
+
 	opts := &terraform.Options{
-		TerraformDir:    "../",
+		TerraformDir:    "../infrastructure-live/non-prod/vpc",
 		TerraformBinary: "tofu",
+
+		// Variables to pass to our Terraform code using -var options
+		Vars: map[string]interface{}{
+			"region": awsRegion,
+		},
 	}
 
 	defer terraform.Destroy(t, opts)
@@ -29,7 +36,7 @@ func TestVpcAndSubnets(t *testing.T) {
 
 	// type Vpc struct {
 	// 	Id                   string            // The ID of the VPC
-	// 	Name                 string            // The name of the VPC
+	// 	Name                 string Test Variables: These are defined in your terraform.Options struct within the Vars or VarFiles attributes.           // The name of the VPC
 	// 	Subnets              []Subnet          // A list of subnets in the VPC
 	// 	Tags                 map[string]string // The tags associated with the VPC
 	// 	CidrBlock            *string           // The primary IPv4 CIDR block for the VPC.
@@ -37,7 +44,7 @@ func TestVpcAndSubnets(t *testing.T) {
 	// 	Ipv6CidrAssociations []*string         // Information about the IPv6 CIDR blocks associated with the VPC.
 	// }
 
-	vpc_struct := aws.GetVpcById(t, vpcID, "ca-central-1")
+	vpc_struct := aws.GetVpcById(t, vpcID, awsRegion)
 
 	assert.Equal(t, vpcID, vpc_struct.Id)
 
