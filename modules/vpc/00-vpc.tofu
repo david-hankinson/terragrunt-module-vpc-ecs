@@ -5,7 +5,8 @@ resource "aws_vpc" "this" {
   enable_dns_support   = var.enable_dns_support
 
   // enable a vpc endpoint for s3 and private subnets
-
+ 
+  region = var.region
   tags = {
     name = "${var.env}-vpc"
   }
