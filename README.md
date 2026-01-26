@@ -323,49 +323,6 @@ Firstly through, lets turn out flat infrastructure configuration into a cookie-c
 
 
 # v0.0.4 
-State?
-
-# eks cluster as a 
-
-Let's refactor the terraform configuration into terragrunt configuration, and follow the terragrunt pattern of modules, units and stacks. 
-
-## What are the benefits of refactoring terraform code into terragrunt code
-
-TODO: MOVE THE ORGANIZATION ID INTO A SECRET X
-
-JUST DO THIS WITH A SEPERATE INPUTS.TF AND JUST LEAVE AN EXAMPLE? X
-
-ESTABLISH A PATTERN FOR REFACTORING TERRAFORM CODE INTO TERRAGRUNT WITH:
-
-BREAK UP THE MAIN FILE
-SPLIT OFF INTO DIFFERENT FILES
-WRITE TESTS TO CONFIRM NON-MASTER ACCOUNT CHILD NAMES
-
-MODULE, UNIT AND STACK STRUCTURE
-
-VARIABLISING PATTERNS
-
-EXPLAIN THAT THIS ALSO GIVES US THE OPPORTUNITY TO ENFORCE COMPANY STANDARDS
-
-SHOW TERRAGRUNT CODE - AS THE TESTS ARE ALREADY WRITTEN
-
-FINISH UP
-
-REPEAT FOR VPC. WE DO NOT NEED TO MAKE THE ORGANIZATION AND CHILD ACCOUNTS A DEPENDENCY FOR THE VPC AND THE ECS. THESE SHOULD BE 2 SEPERATE STEPS IN MY OPINION.
-
-PROVISION THE VPC BASIC? 
-
-GO FROM THERE....
-
-BOOKS BOOKS BOOKS
-
-This is how you go from a monolithic terraform configuration to a 
-
-Before writing this, I already have provisioned my child accounts in AWS. They are part of the root account i've already imported into my terraform state. So we can go on and starting building out resources for authentication, networking and anything else that's required. 
-
-
-0.0.1
-
 
 ALL TESTS MUST BE: 
 RUN IN A SANDBOX ENVIRONMENT? 
