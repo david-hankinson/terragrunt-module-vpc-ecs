@@ -31,10 +31,6 @@ Using this workflow, we'll show readers how to create a global cloud infrastruct
 
 We'll be building AWS ECS Clusters using some excellent tools created by gruntworks. They'll be deployed in multiple AWS accounts and regions. All the code will be available HERE::::: -->
 
-Module repositories:
-> **Note:** All our resources here are available in the corresponding tag of the [terragrunt-module-ecs-vpc repo](https://github.com/david-hankinson/terragrunt-module-vpc-ecs/)
-
-Live infrastructure repo:
 
 ## Prerequisites
 
@@ -43,14 +39,9 @@ TODO: MISE
 - OpenTofu v1.11.2
 - Go v1.24.
 - Terragrunt v0.97.2 
-- Terratest v0.54.0
-
+- Terratest v0.54.0git@github.com:david-hankinson/gruntworks-test-driven-iac.git
 https://mise.jdx.dev/continuous-integration.html
-
 - An AWS organization with child accounts that you have programmatic access to from your local machine
-
-
-** UPDATE TO the latest version
 
 ## Key background information
 The suggested workflow is an addition to the work already done in the following resources: 
