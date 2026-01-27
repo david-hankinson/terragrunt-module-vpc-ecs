@@ -3,10 +3,11 @@ package test
 import (
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/gruntwork-io/terratest/modules/aws"
+	"github.com/gruntwork-io/terratest/modules/retry"
 	"github.com/gruntwork-io/terratest/modules/terraform"
-
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -15,7 +16,7 @@ func TestVpcAndSubnets(t *testing.T) {
 	t.Parallel()
 
 	opts := &terraform.Options{
-		TerraformDir:    "../infrastructure-live/prod/vpc",
+		TerraformDir:    "../infrastructure-live/non-prod/vpc",
 		TerraformBinary: "tofu",
 	}
 
@@ -23,9 +24,11 @@ func TestVpcAndSubnets(t *testing.T) {
 	terraform.InitAndApply(t, opts)
 
 	vpcID := terraform.Output(t, opts, "vpc_id")
-	pubIDs := terraform.OutputList(t, opts, "public_subnet_ids")
-	privIDs := terraform.OutputList(t, opts, "private_subnet_ids")
+	pubIDs := terraform.OutputList(t, opts, "public_subnets_ids")
+	privIDs := terraform.OutputList(t, opts, "private_subnets_ids")
 	fmt.Printf("Provisioned VPC Name: %s\n", vpcID)
+	fmt.Printf("Provisioned pubIDs: %s\n", pubIDs)
+	fmt.Printf("Provisioned privIDs: %s\n", privIDs)
 
 	// type Vpc struct {
 	// 	Id                   string            // The ID of the VPC
@@ -37,16 +40,25 @@ func TestVpcAndSubnets(t *testing.T) {
 	// 	Ipv6CidrAssociations []*string         // Information about the IPv6 CIDR blocks associated with the VPC.
 	// }
 
-	vpc_struct := aws.GetVpcById(t, vpcID, "ca-central-1")
+	var vpc *aws.Vpc
 
-	assert.Equal(t, vpcID, vpc_struct.Id)
+	retry.DoWithRetry(t, "Wait for VPC to be discoverable", 100, 15*time.Second, func() (string, error) {
+		var err error
+		vpc, err = aws.GetVpcByIdE(t, vpcID, "ca-central-1")
+		if err != nil {
+			return "", err
+		}
+		return "VPC found", nil
+	})
 
-	assert.Equal(t, "10.1.0.0/16", *vpc_struct.CidrBlock)
+	assert.Equal(t, vpcID, vpc.Id)
+	assert.Equal(t, "10.50.0.0/16", *vpc.CidrBlock)
+	require.Len(t, vpc.Subnets, 4)
 
-	// “public + private subnets exist” tests in the outputs
+	// // “public + private subnets exist” tests in the outputs
 	require.Len(t, pubIDs, 2)
 	require.Len(t, privIDs, 2)
 
 	// use the terratest aws module to confirm 4 subnets are present in the aws account
-	require.Len(t, vpc_struct.Subnets, 4)
+	require.Len(t, vpc.Subnets, 4)
 }

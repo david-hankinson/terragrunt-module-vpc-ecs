@@ -12,9 +12,8 @@ module "vpc" {
 }
 
 provider "aws" {
-  assume_role {
-    role_arn = "arn:aws:iam::754417747438:role/organizationAdminRole"
-  }
+
+  region = "ca-central-1"
 }
 
 terraform {
@@ -24,7 +23,7 @@ terraform {
     region       = "ca-central-1"
     use_lockfile = true
     encrypt      = true
-    role_arn = "arn:aws:iam::754417747438:role/organizationAdminRole"
+    # role_arn = "arn:aws:iam::754417747438:role/organizationAdminRole"
   }
 }
 
