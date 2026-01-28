@@ -39,5 +39,8 @@ terraform.rc
 
 .terraform.lock.hcl
 
-/.terragrunt-cache
-/.terragrunt-cache/*
+# === Terragrunt ===
+.terragrunt-cache/
+.terragrunt-debug.tfvars.json
+*/.terragrunt-cache
+*/.terragrunt-cache/*
