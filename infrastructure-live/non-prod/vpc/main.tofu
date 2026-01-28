@@ -13,6 +13,9 @@ module "vpc" {
 
 provider "aws" {
   region = "ca-central-1"
+  assume_role {
+    role_arn = "arn:aws:iam::596596146882:role/organizationAdminRole"
+  }
 }
 
 terraform {
