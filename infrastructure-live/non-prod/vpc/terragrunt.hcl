@@ -20,8 +20,15 @@ inputs = {
 remote_state {
   backend = "s3" 
   config = {
+    region       = "ca-central-1"
+    encrypt      = true
+    use_lockfile = true
     bucket       = "terragrunt-vpc-ecs-state-demo-childaccount2"
     key          = "${path_relative_to_include()}/non-prod/terraform.tfstate"
-    # role_arn = "arn:aws:iam::754417747438:role/organizationAdminRole"
+    role_arn = "arn:aws:iam::596596146882:role/organizationAdminRole"
+  }
+  generate = {
+    path      = "backend.tf"
+    if_exists = "overwrite"
   }
 }
