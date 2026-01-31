@@ -264,6 +264,55 @@ Ok, excellent! We're writing test driven infrastructure as code!
 
 # v0.0.3
 
+Currently, our code deploys resources into one aws account, in one region. Many large businesses need to harness AWS's global reach to best serve their customers. The first step will be to modularise the configuaration, then to make use of [Terragrunt by gruntworks](https://terragrunt.gruntwork.io/). 
+
+Additionally, modular Terragrunt code allows our devops teams to build small, reusable units of infrastructure with *company best practices baked in*.
+
+To turn this into an analogy, it's simillar to having 1000 houses to build, and 100 different crews to build them. Left to their own devices, they'd all build them differently. And some of the crews haven't been building houses for long and would benefit from help! 
+
+With terragrunt, we're able to much more easily provide a central location that can produce pre-fabricated walls, ceilings, floors and roofs. These are our modules of infrastructure-as-code! They form the building blocks of the business' cloud estate. 
+
+We're able to build structures that can support a strong business. Teams can deploy more regularly, safely and in small, incremental steps.
+
+## Background reading
+
+- [Terragrunt units](https://terragrunt.gruntwork.io/docs/features/units/)
+- [Terragrunt stacks](https://terragrunt.gruntwork.io/docs/features/stacks/)
+
+We can now update our tofu code and give it the structure of the module without changing any of the resources it defines. 
+
+First, create an 'infrastructure-live' folder 
+
+As a first step, we'll point our infrastructure live to our modules folder and pass inputs from the infrastructure live folder to the module code. This will allow us to avoid repeating ourselves too much. 
+
+We'll end up with a folder structure that looks like this:
+
+```
+infrastructure-live
+  - non-prod
+    - vpc
+      - main.tofu
+      - outputs.tofu
+  - prod 
+    - vpc
+      - main.tofu
+      - outputs.tofu
+
+modules
+  - vpc
+    - 00-vpc.tofu
+```
+
+You can also additionally break the vpc code down into multiple files, a vpc, subnet, outputs and variables file.
+
+```
+
+```
+
+
+# v0.0.4 
+
+
 There's been some static analysis and a written terratest that essentially performs one type of static analysis on our code with a tofu plan. We can now start to define more features in a test-driven manner.
 
 ```
@@ -285,7 +334,7 @@ func TestVpcAndSubnets(t *testing.T) {
 	t.Parallel()
 
 	opts := &terraform.Options{
-		TerraformDir:    "../infrastructure-live/non-prod/vpc",
+		TerraformDir:    "../non-prod/vpc",
 		TerraformBinary: "tofu",
 	}
 
@@ -331,52 +380,13 @@ func TestVpcAndSubnets(t *testing.T) {
 	// use the terratest aws module to confirm 4 subnets are present in the aws account
 	require.Len(t, vpc.Subnets, 4)
 }
-
 ```
 
-
-# v0.0.4
-
-Currently, our code deploys resources into one aws account, in one region. Many large businesses need to harness AWS's global reach to best serve their customers. [Terragrunt by gruntworks](https://terragrunt.gruntwork.io/) can help us out here! 
-
-Additionally, Terragrunt allows our devops teams to build small, reusable units of infrastructure with *company best practices baked in*.
-
-To turn this into an analogy, it's simillar to having 1000 houses to build, and 100 different crews to build them. Left to their own devices, they'd all build them differently. And some of the crews haven't been building houses for long and would benefit from help! 
-
-With terragrunt, we're able to much more easily provide a central location that can produce pre-fabricated walls, ceilings, floors and roofs. These are our modules of infrastructure-as-code! They form the building blocks of the business' cloud estate. 
-
-We're able to build structures that can support a strong business. Teams can deploy more regularly, safely and in small, incremental steps.
-
-## Background reading
-
-- [Terragrunt units](https://terragrunt.gruntwork.io/docs/features/units/)
-- [Terragrunt stacks](https://terragrunt.gruntwork.io/docs/features/stacks/)
-
-A terragrunt unit is a folder with a terragrunt.hcl file.
-
-A simple terragrunt module should contain
-
-- README.md
-- main.tofu
-- outputs.tofu
-- variables.tofu
-
-We can now update our tofu code and give it the structure of the module without changing any of the resources it defines. 
-
-First create a /units folder 
-
-The unit folder should have a terragrunt.hcl file in it, from here we'll reference our module code.
-
-Firstly through, lets turn out flat infrastructure configuration into a cookie-cutter that we can pass values too.
+Here, we're carrying out a more 'unit test' type of test on the VPC. Firstly, collecting the outputs and storing them in memory, and later calling AWS api's to confirm that the values the VPC is displaying match our outptuts. Addtionally, we're confirming the number of subnets in total, as well is private and public subnets, match what we're looking for. 
 
 
 
-```
 
-```
-
-
-# v0.0.4 
 
 ALL TESTS MUST BE: 
 RUN IN A SANDBOX ENVIRONMENT? 
