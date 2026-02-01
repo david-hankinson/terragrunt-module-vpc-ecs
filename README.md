@@ -39,8 +39,7 @@ TODO: MISE
 - OpenTofu v1.11.2
 - Go v1.24.
 - Terragrunt v0.97.2 
-- Terratest v0.54.0git@github.com:david-hankinson/gruntworks-test-driven-iac.git
-https://mise.jdx.dev/continuous-integration.html
+- Terratest v0.54.0
 - An AWS organization with child accounts that you have programmatic access to from your local machine
 
 ## Key background information
@@ -155,7 +154,7 @@ In this repo's /test folder, I have my development machine set to the profile of
 
 This test only confirms that the terraform code plan executes successfully. A good place to establish a unit test and build on further.
 
-✅ **Important:** When running this code, your **state file will be saved locally** until we progress to using Terragrunt.
+✅ **Important:** When running this code, your **state file will be saved locally** until we progress to using s3 backends.
 
 ```
 package test
